@@ -1,0 +1,51 @@
+string chemintemp(chemin);
+/* ############   existeEf ###########*/
+bool res=false;
+int i=0;
+
+while((i<sizeof(alphabet2)/sizeof(char)) && !res){
+  if(etatFinal==fonctionDeTransition(d,alphabet2[i])){
+    etatFinal->setSalle_Traverse(true);
+    chemintemp.push_back(alphabet2[i]);
+    res=true;
+    cout << "Le plus petit chemin est : " << chemintemp << endl;
+
+    /* ######## ecriture dans fichier ###########*/
+    ofstream fichier("test.txt", ios::out | ios::trunc);
+    if(fichier)  // si l'ouverture a réussi
+     {
+             fichier <<chemintemp;
+             fichier.close();  // on ferme le fichier
+     }
+     else {
+             cerr << "Impossible d'ouvrir le fichier !" << endl;}
+    return; //chemintemp;
+  }
+  i++;
+}
+
+int j=0;
+if(res==false){
+  Etat* T[2];
+  for(int i=0;i<2;i++){
+    T[i]=fonctionDeTransition(d,alphabet2[i]);
+  }
+  while(j<2 && (etatFinal->getSalle_Traverse()==false)){
+    if(T[j]!=NULL){
+      //cout << "lettre :"<<alphabet2[j]<< endl;
+chemintemp.push_back(alphabet2[j]);
+cout << "chemintemp2 : " << chemintemp << endl;
+if(T[j]==etatFinal){
+  etatFinal->setSalle_Traverse(true);
+}
+if(T[j]->getSalle_Traverse()==false){
+  T[j]->setSalle_Traverse(true);
+  pluspetitcheminInter(*T[j],chemintemp);
+}
+    }
+    j++;
+  }
+}
+
+/*if(etatFinal->getSalle_Traverse())
+  return chemintemp;*/
