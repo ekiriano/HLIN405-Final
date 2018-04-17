@@ -106,25 +106,25 @@ Automate Automate::generationAleatoire2(int nbSalles , float densite, char* n_al
   }
   return retour;
 }
-/*
-Automate Automate::generationAleatoire3(int nbSalles , float densite, char* n_alphabet ,int nbLettresAlphabet // a ameliorer
+
+Automate Automate::generationAleatoire3(int nbSalles , float densite, char* n_alphabet ,int nbLettresAlphabet){ // a ameliorer
   Automate retour(n_alphabet,nbSalles,nbLettresAlphabet);
   // densité = nbcouloirs/nbsalles => nbcouloirs = nbsalles * densité
   int nbTransitions = nbSalles*densite;
   int etatAleat1 , etatAleat2; int indiceLettre;
   Etat* ensembleGlobalRetour = retour.getEnsembleGlobal();
   srand(time(NULL));
+
   while(nbTransitions!= 0){
     indiceLettre=rand()%nbLettresAlphabet;
     etatAleat1=rand()%nbSalles; cout <<"etatAleat1 : " << etatAleat1 << endl;
     etatAleat2=rand()%nbSalles; cout <<"etatAleat2 : " << etatAleat2 << endl;
-
-    if(nbTransitions==1){
-      cout << "booooom " << endl;
-        retour.setTransition(0,n_alphabet[indiceLettre],nbSalles-1);
+    if(nbTransitions == 1){
+      if(retour.fonctionDeTransition(ensembleGlobalRetour[etatAleat1],n_alphabet[indiceLettre])==NULL && etatAleat2!=0 && etatAleat1!=nbSalles-1 && (etatAleat1!=etatAleat2)){
+        retour.setTransition(etatAleat1,n_alphabet[indiceLettre],nbSalles-1);
         nbTransitions--;
+      }
     }
-
     else{
       if(retour.fonctionDeTransition(ensembleGlobalRetour[etatAleat1],n_alphabet[indiceLettre])==NULL && etatAleat2!=0 && etatAleat1!=nbSalles-1 && (etatAleat1!=etatAleat2)){
         retour.setTransition(etatAleat1,n_alphabet[indiceLettre],etatAleat2);
@@ -132,8 +132,21 @@ Automate Automate::generationAleatoire3(int nbSalles , float densite, char* n_al
       }
     }
   }
+
   return retour;
-}*/
+}
+
+string Automate::motAleatoire(int longeurmot){
+  srand(time(NULL));
+  string mot = "";
+  int nb;
+  while(mot.size()<longeurmot){
+    nb = rand()%tailleAlphabet+1;
+    mot.append(1,alphabet2[nb]);
+  }
+  return mot;
+}
+
 /* ----- Fonctions ----- */
 
 Etat* Automate::fonctionDeTransition( Etat a , char lettre){
@@ -141,9 +154,9 @@ Etat* Automate::fonctionDeTransition( Etat a , char lettre){
   return ensembleTransitions[t][idxlettre];
 }
 
-bool Automate::motReconnu(char* mot,int longeurmot){ //O(longeurmot)
+bool Automate::motReconnu(string mot){ //O(longeurmot) char* mot,int longeurmot
   Etat* actuel = etatInitial;
-
+  int longeurmot = mot.size();
   for(int i = 0 ;i<longeurmot;i++){
 
     Etat actuelderef = *actuel;
@@ -216,6 +229,7 @@ bool Automate::existeEF(Etat a){
   }
   return res;
 }
+
 
 void Automate::pluspetitcheminInter(vector<Etat*> depart){
   string petitchemin ="";

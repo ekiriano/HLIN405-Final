@@ -44,9 +44,11 @@ public:
 Automate generationAleatoire1(int nbSalles , float densite, char* n_alphabet,int nbLettresAlphabet);
 Automate generationAleatoire2(int nbSalles , float densite, char* n_alphabet,int nbLettresAlphabet);
 Automate generationAleatoire3(int nbSalles , float densite, char* n_alphabet,int nbLettresAlphabet);
+
+std::string motAleatoire(int longeurmot);
 /* Fonctions */
   Etat* fonctionDeTransition( Etat a,char lettre);
-  bool motReconnu(char* mot,int longeurmot);
+  bool motReconnu(std::string mot);
 
   bool existecheminInter(Etat a);
   bool existechemin();
