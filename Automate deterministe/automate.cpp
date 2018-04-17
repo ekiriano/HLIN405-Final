@@ -68,7 +68,6 @@ Automate Automate::generationAleatoire1(int nbSalles , float densite, char* n_al
   return retour;
 }
 
-/*
 Automate Automate::generationAleatoire2(int nbSalles , float densite, char* n_alphabet,int nbLettresAlphabet){
   Automate retour(n_alphabet,nbSalles,nbLettresAlphabet);
   // densité = nbcouloirs/nbsalles => nbcouloirs = nbsalles * densité
@@ -87,18 +86,27 @@ Automate Automate::generationAleatoire2(int nbSalles , float densite, char* n_al
     etatAleat1=rand()%nbSalles;
     etatAleat2=rand()%nbSalles;
 
-    if((etatAleat1!=etatAleat2)){
-      if(etatAleat1>etatAleat2 && etatAleat1!=nbSalles-1 && etatAleat2!=0 && retour.fonctionDeTransition(ensembleGlobalRetour[etatAleat1],n_alphabet[indiceLettre])==NULL)
-      retour.setTransition(etatAleat1,n_alphabet[indiceLettre],etatAleat2);
-      nbTransitionsSortantes--;
+    if(etatAleat1!=etatAleat2){
 
-      if(etatAleat2>etatAleat1 && etatAleat2!=nbSalles-1 && etatAleat1!=0 && retour.fonctionDeTransition(ensembleGlobalRetour[etatAleat2],n_alphabet[indiceLettre])==NULL)
-      retour.setTransition(etatAleat2,n_alphabet[indiceLettre],etatAleat1);
-      nbTransitionsEntrantes--;
+      if(etatAleat1<etatAleat2 && retour.fonctionDeTransition(ensembleGlobalRetour[etatAleat1],n_alphabet[indiceLettre])==NULL){
+        if(etatAleat2!=0 && etatAleat1!=nbSalles-1){
+          retour.setTransition(etatAleat1,n_alphabet[indiceLettre],etatAleat2);
+          nbTransitionsSortantes--;
+        }
+      }
+
+      if(etatAleat2>etatAleat1 && retour.fonctionDeTransition(ensembleGlobalRetour[etatAleat2],n_alphabet[indiceLettre])==NULL){
+        if(etatAleat2!=(nbSalles-1) && etatAleat1!=0){
+          retour.setTransition(etatAleat2,n_alphabet[indiceLettre],etatAleat1);
+          nbTransitionsEntrantes--;
+        }
+      }
+
     }
   }
   return retour;
-}*/
+}
+/*
 Automate Automate::generationAleatoire3(int nbSalles , float densite, char* n_alphabet ,int nbLettresAlphabet // a ameliorer
   Automate retour(n_alphabet,nbSalles,nbLettresAlphabet);
   // densité = nbcouloirs/nbsalles => nbcouloirs = nbsalles * densité
@@ -125,7 +133,7 @@ Automate Automate::generationAleatoire3(int nbSalles , float densite, char* n_al
     }
   }
   return retour;
-}
+}*/
 /* ----- Fonctions ----- */
 
 Etat* Automate::fonctionDeTransition( Etat a , char lettre){
