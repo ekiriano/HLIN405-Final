@@ -47,7 +47,7 @@ cout << "##############################" << endl;
 
 
  Automate bal;
- bal=bal.generationAleatoire1(10,2,tab,3);
+ bal=bal.generationAleatoire3(10,2,tab,3);
 
  Etat* balGlob = bal.getEnsembleGlobal();
  for (int i=0;i<10;i++){

@@ -1,0 +1,97 @@
+
+############# AUTOMATE .CPP #####################
+/*
+bool Automate::existechemin(){
+  int tailleAlphabet = sizeof(alphabet2)/sizeof(char);
+  vector<Etat*> actuel(0); actuel.push_back(etatInitial);
+  vector<Etat*> pourVerif; vector<Etat*> ensemble;
+
+  for(int i =0 ; i<actuel.size();i++){ // on parcourt l'ensemble actuel des etats
+    ensemble = vector<Etat*>(0);
+
+    for(int j =0; j<tailleAlphabet;j++){ // on regarde toute les transitions existantes
+      pourVerif = fonctionDeTransition(actuel,alphabet2[j]);
+      if(pourVerif.size() != 0){ // si il exite des etats
+        for(int k =0;k<pourVerif.size();k++){
+          ensemble.push_back(pourVerif[k]); // on les ajoutes a ensemble
+        }
+      }
+      /*######## on supprime les doubles afin d'obtenir l'union ########
+      sort( ensemble.begin(), ensemble.end() );
+      ensemble.erase(unique(ensemble.begin(), ensemble.end()) , ensemble.end());
+    }
+    for(int z=0;z<ensemble.size();z++){
+      if(ensemble[z]==etatFinal){
+        return true;
+      }
+      else{
+        if(ensemble[z]->getSalle_Traverse() == false){
+
+        }
+      }
+      ensemble[z]->setSalle_Traverse(true);
+    }
+
+  }
+/*
+  bool trouve=false;
+  Etat* test;
+  for(int i=0;i<sizeof(alphabet2)/sizeof(char);i++){
+    if(fonctionDeTransition(d,alphabet2[i])){
+      test=fonctionDeTransition(d,alphabet2[i]);
+      if(test->getSalle_Traverse()==false){
+	if(test==&a)
+	  return true;
+	else {
+	  test->setSalle_Traverse(true);
+	  existechemin(*test , a);
+	}
+      }
+    }
+  }
+  return trouve;
+
+}*/
+
+################### Main.cpp #######################
+/*
+vector<Etat*>* unionEtats(vector<Etat*> ensembleDepart, char lettre){
+  vector<Etat*> inter; vector<Etat*> temp;
+  for(int i =0 ; i<ensembleDepart.size();i++){ // parcours de l'ensemble des états de l'ensemble de départ
+    if(fonctionDeTransition(ensembleDepart[i],lettre) != NULL){ // parcours des transitions existante si la trransition avec la lettre existe
+      temp = fonctionDeTransition(ensembleDepart[i],lettre);
+      for(int j = 0 ; j<temp.size();j++){ // on a joute les elements a inter si existe transition
+        inter.push_back(temp[j]);
+      }
+    }
+  }
+  // tout les elements ateignables sont dans inter , supprimons maintenant les éléments en double
+  sort( inter.begin(), inter.end() );
+  inter.erase(unique(inter.begin(), inter.end()) , inter.end());
+//nous obtenons alors l'ensemble
+vector<Etat*>* adressretour = & inter;
+return adressretour;
+}*/
+
+/*
+vector<int> unionEtats(vector<int> v,vector<int> v1){ // test union avec int
+  vector<int> inter;
+  for(int i =0 ;i < v.size();i++){
+    inter.push_back(v[i]);
+  }
+  for(int i =0 ;i < v1.size();i++){
+    inter.push_back(v1[i]);
+  }
+  sort( inter.begin(), inter.end() );
+  inter.erase(unique(inter.begin(), inter.end()) , inter.end());
+  return inter;
+}*/
+
+
+/*--------------- dans main ---------*/
+/*  Test union avec ints
+  vector<int> v = {1,2,3,4,5}; vector<int> v2 = {1,1,5,4,5};
+  vector<int> vtest = unionEtats(v,v2);
+  for(int i = 0 ;i<vtest.size();i++){
+   cout<<vtest[i]<<endl;
+ }*/
