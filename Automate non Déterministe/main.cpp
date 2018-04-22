@@ -22,8 +22,8 @@ Reconnait les mots : a,aa,aba,ab ...
  test.setTransition(2,'a',3);test.setTransition(2,'b',3);
 
  Etat* ensembleEtats = test.getEnsembleGlobal();
- //vector<Etat*> testensemble = {&ensembleEtats[0]};
- vector<Etat*> uniondestransitions0a = test.unionEtats(testensemble,'a');
+
+ //vector<Etat*> uniondestransitions0a = test.unionEtats(testensemble,'a');
 
 /*
  cout << "affichage de l'union" << endl; // 3
@@ -32,6 +32,20 @@ Reconnait les mots : a,aa,aba,ab ...
 }
 */
 
+vector<Etat*> testensemble;
+testensemble.push_back(&ensembleEtats[0]);
+test.pluspetitcheminInter(testensemble);
+
+for(int i = 0;i< 4;i++){
+  if(ensembleEtats[i].getPere()!= NULL){
+  cout << ensembleEtats[i].getEtat() << " a pour pere : " << ensembleEtats[i].getPere()->getEtat()<<endl;
+  }
+  else{
+    cout << ensembleEtats[i].getEtat() << " n'a pas de pere "<< endl;
+  }
+}
+
+test.pluspetitchemin();
 
 cout << "########## Test des Mots Reconnus ##########" << endl;
 cout<< "---------------------------" << endl;

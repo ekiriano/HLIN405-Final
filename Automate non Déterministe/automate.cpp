@@ -19,7 +19,7 @@ Automate::Automate(char* n_alphabet ,int nbSalles ,int nbLettresAlphabet){
   //int nbLettresAlphabet = 2;//sizeof(n_alphabet[0])/sizeof(n_alphabet);
   tailleAlphabet = nbLettresAlphabet;
   tailleEnsemleGlobal = nbSalles;
-  
+
   alphabet2=n_alphabet;
 
   Etat* tab= new Etat[nbSalles];
@@ -82,7 +82,6 @@ vector<Etat*> Automate::unionEtats(vector<Etat*> ensembleDepart, char lettre){
   return inter;
 }
 
-
 bool Automate::motReconnu(char* mot,int longeurmot){ //O(longeurmot)
 
   vector<Etat*> actuel(0); actuel.push_back(etatInitial); // set a etat initial;
@@ -116,43 +115,51 @@ bool Automate::motReconnu(char* mot,int longeurmot){ //O(longeurmot)
       else{return false;}}
       i++;
     }
+    return false;
 }
-
 
 void Automate::pluspetitcheminInter(vector<Etat*> depart){
   string petitchemin ="";
   vector<Etat*> etats;
+  vector<Etat*> temp;
+  vector<Etat*> transitionTemp;
 
-  int k;
-  if(etatFinal->getPere()== NULL){
-    k =0;
-    for(int j =0 ;j<depart.size();j++){
-      for(int i =0 ; i<tailleAlphabet;i++){
-        //cout << j << "   " << i << endl;
 
-        if(fonctionDeTransition(*depart[j],alphabet2[i]) !=NULL){
-          etats.push_back(fonctionDeTransition(*depart[j],alphabet2[i]));
-          if(etats[k]!= NULL && etats[k]->getPere()==NULL){
-            etats[k]->setPere(depart[j]);
+if(etatFinal->getPere()== NULL){
+  for(int j =0 ;j<depart.size();j++){
+    for(int i =0 ; i<tailleAlphabet;i++){
+
+      if(fonctionDeTransition(*depart[j],alphabet2[i])->size() !=0){
+        transitionTemp = *fonctionDeTransition(*depart[j],alphabet2[i]);
+        for(int k= 0 ;k< transitionTemp.size();k++){
+          if(transitionTemp[k]->getPere()==NULL){
+            cout << transitionTemp[k]->getEtat() << "     "<< depart[j]->getEtat() << endl;
+            transitionTemp[k]->setPere(depart[j]);
           }
-          k++;
+          temp.push_back(transitionTemp[k]);
         }
       }
     }
-    pluspetitcheminInter(etats);
   }
-}
+  //elimination des doublons
+  sort( temp.begin(), temp.end() );
+  temp.erase(unique(temp.begin(), temp.end()) , temp.end());
+  pluspetitcheminInter(temp);
+  }
 
+
+}
 string Automate::pluspetitchemin(){
   string petitchemin ="";
   vector<Etat*> initial;initial.push_back(etatInitial);
-
+  vector<Etat*> ensPar;
 
 
     cout << " bloque ? " << endl;
   if(existechemin()){
     this->pluspetitcheminInter(initial);
-    for(int i =0 ; i < tailleEnsemleGlobal;i++){
+    /*for(int i =0 ; i < tailleEnsemleGlobal;i++){
+
       cout << ensembleGlobal[i].getEtat() << " a pour pere : " ;
       if(ensembleGlobal[i].getPere() != NULL){
         cout << ensembleGlobal[i].getPere()->getEtat()<<endl;
@@ -161,20 +168,27 @@ string Automate::pluspetitchemin(){
         cout << "Pas de pere" << endl;
       }
     }
+    */
     Etat* temp = etatFinal;
     while(etatInitial!=temp){
       for(int i =0 ; i<tailleEnsemleGlobal ;i++){
         for(int j =0 ; j< tailleAlphabet;j++){
-          if(fonctionDeTransition(ensembleGlobal[i],alphabet2[j]) == temp && (&ensembleGlobal[i]==temp->getPere())){
-            petitchemin.push_back(alphabet2[j]);
-            temp = &ensembleGlobal[i];
+          if(fonctionDeTransition(ensembleGlobal[i],alphabet2[j])->size()!= 0){
+            ensPar = *fonctionDeTransition(ensembleGlobal[i],alphabet2[j]);
+
+            for(int k =0;k<ensPar.size();k++){
+              if(ensPar[k]== temp && (&ensembleGlobal[i]==temp->getPere())){
+                petitchemin.push_back(alphabet2[j]);
+                temp = &ensembleGlobal[i];
+              }
+            }
           }
         }
       }
     }
     reverse(petitchemin.begin(),petitchemin.end());// reverse petit chemin avant de renvoyer
   }
-
+  cout << "pluspetitchemin : "<< petitchemin << endl;
   return petitchemin;
 
 }
