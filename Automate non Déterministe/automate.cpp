@@ -125,30 +125,28 @@ void Automate::pluspetitcheminInter(vector<Etat*> depart){
   vector<Etat*> transitionTemp;
 
 
-if(etatFinal->getPere()== NULL){
-  for(int j =0 ;j<depart.size();j++){
-    for(int i =0 ; i<tailleAlphabet;i++){
+  if(etatFinal->getPere()== NULL){
+    for(int j =0 ;j<depart.size();j++){
+      for(int i =0 ; i<tailleAlphabet;i++){
 
-      if(fonctionDeTransition(*depart[j],alphabet2[i])->size() !=0){
-        transitionTemp = *fonctionDeTransition(*depart[j],alphabet2[i]);
-        for(int k= 0 ;k< transitionTemp.size();k++){
-          if(transitionTemp[k]->getPere()==NULL){
-            cout << transitionTemp[k]->getEtat() << "     "<< depart[j]->getEtat() << endl;
-            transitionTemp[k]->setPere(depart[j]);
+        if(fonctionDeTransition(*depart[j],alphabet2[i])->size() !=0){
+          transitionTemp = *fonctionDeTransition(*depart[j],alphabet2[i]);
+          for(int k= 0 ;k< transitionTemp.size();k++){
+            if(transitionTemp[k]->getPere()==NULL){
+              transitionTemp[k]->setPere(depart[j]);
+            }
+            temp.push_back(transitionTemp[k]);
           }
-          temp.push_back(transitionTemp[k]);
         }
       }
     }
+    //elimination des doublons
+    sort( temp.begin(), temp.end() );
+    temp.erase(unique(temp.begin(), temp.end()) , temp.end());
+    pluspetitcheminInter(temp);
   }
-  //elimination des doublons
-  sort( temp.begin(), temp.end() );
-  temp.erase(unique(temp.begin(), temp.end()) , temp.end());
-  pluspetitcheminInter(temp);
-  }
-
-
 }
+
 string Automate::pluspetitchemin(){
   string petitchemin ="";
   vector<Etat*> initial;initial.push_back(etatInitial);
@@ -158,17 +156,6 @@ string Automate::pluspetitchemin(){
     cout << " bloque ? " << endl;
   if(existechemin()){
     this->pluspetitcheminInter(initial);
-    /*for(int i =0 ; i < tailleEnsemleGlobal;i++){
-
-      cout << ensembleGlobal[i].getEtat() << " a pour pere : " ;
-      if(ensembleGlobal[i].getPere() != NULL){
-        cout << ensembleGlobal[i].getPere()->getEtat()<<endl;
-      }
-      else{
-        cout << "Pas de pere" << endl;
-      }
-    }
-    */
     Etat* temp = etatFinal;
     while(etatInitial!=temp){
       for(int i =0 ; i<tailleEnsemleGlobal ;i++){
