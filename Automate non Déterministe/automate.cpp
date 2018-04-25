@@ -53,6 +53,109 @@ Automate::Automate(char* n_alphabet ,int nbSalles ,int nbLettresAlphabet){
   etatFinal = &ensembleGlobal[nbSalles-1];
 }
 
+/* Generations Aleatoires */
+
+/* ------ Generation aléatoire -----------*/
+Automate Automate::generationAleatoire1(int nbSalles , float densite, char* n_alphabet ,int nbLettresAlphabet){
+  Automate retour(n_alphabet,nbSalles,nbLettresAlphabet);
+  // densité = nbcouloirs/nbsalles => nbcouloirs = nbsalles * densité
+  int nbTransitions = nbSalles*densite;
+  int etatAleat1 , etatAleat2; int indiceLettre;
+  Etat* ensembleGlobalRetour = retour.getEnsembleGlobal();
+  srand(time(NULL));
+  while(nbTransitions!= 0){
+    indiceLettre=rand()%nbLettresAlphabet;
+    etatAleat1=rand()%nbSalles; cout <<"etatAleat1 : " << etatAleat1 << endl;
+    etatAleat2=rand()%nbSalles; cout <<"etatAleat2 : " << etatAleat2 << endl;
+
+    if(etatAleat2!=0 && etatAleat1!=nbSalles-1 && (etatAleat1!=etatAleat2)){
+      retour.setTransition(etatAleat1,n_alphabet[indiceLettre],etatAleat2);
+      nbTransitions--;
+    }
+  }
+  return retour;
+}
+
+Automate Automate::generationAleatoire2(int nbSalles , float densite, char* n_alphabet,int nbLettresAlphabet){
+  Automate retour(n_alphabet,nbSalles,nbLettresAlphabet);
+  // densité = nbcouloirs/nbsalles => nbcouloirs = nbsalles * densité
+  int nbTransitions = nbSalles*densite;
+  int nbTransitionsSortantes, nbTransitionsEntrantes;
+
+  nbTransitionsSortantes = nbTransitions/2;
+  nbTransitionsEntrantes= nbTransitions-nbTransitionsSortantes;
+
+  Etat* ensembleGlobalRetour = retour.getEnsembleGlobal();
+  int etatAleat1 , etatAleat2; int indiceLettre;
+  srand(time(NULL));
+
+  while(nbTransitionsSortantes!= 0 && nbTransitionsEntrantes!=0){
+    indiceLettre=rand()%nbLettresAlphabet;
+    etatAleat1=rand()%nbSalles;
+    etatAleat2=rand()%nbSalles;
+
+    if(etatAleat1!=etatAleat2){
+
+      if(etatAleat1<etatAleat2){
+        if(etatAleat2!=0 && etatAleat1!=nbSalles-1){
+          retour.setTransition(etatAleat1,n_alphabet[indiceLettre],etatAleat2);
+          nbTransitionsSortantes--;
+        }
+      }
+
+      if(etatAleat2>etatAleat1){
+        if(etatAleat2!=(nbSalles-1) && etatAleat1!=0){
+          retour.setTransition(etatAleat2,n_alphabet[indiceLettre],etatAleat1);
+          nbTransitionsEntrantes--;
+        }
+      }
+
+    }
+  }
+  return retour;
+}
+
+Automate Automate::generationAleatoire3(int nbSalles , float densite, char* n_alphabet ,int nbLettresAlphabet){ // a ameliorer
+  Automate retour(n_alphabet,nbSalles,nbLettresAlphabet);
+  // densité = nbcouloirs/nbsalles => nbcouloirs = nbsalles * densité
+  int nbTransitions = nbSalles*densite;
+  int etatAleat1 , etatAleat2; int indiceLettre;
+  Etat* ensembleGlobalRetour = retour.getEnsembleGlobal();
+  srand(time(NULL));
+
+  while(nbTransitions!= 0){
+    indiceLettre=rand()%nbLettresAlphabet;
+    etatAleat1=rand()%nbSalles; cout <<"etatAleat1 : " << etatAleat1 << endl;
+    etatAleat2=rand()%nbSalles; cout <<"etatAleat2 : " << etatAleat2 << endl;
+    if(nbTransitions == 1){
+      if(etatAleat2!=0 && etatAleat1!=nbSalles-1 && (etatAleat1!=etatAleat2)){
+        retour.setTransition(etatAleat1,n_alphabet[indiceLettre],nbSalles-1);
+        nbTransitions--;
+      }
+    }
+    else{
+      if(etatAleat2!=0 && etatAleat1!=nbSalles-1 && (etatAleat1!=etatAleat2)){
+        retour.setTransition(etatAleat1,n_alphabet[indiceLettre],etatAleat2);
+        nbTransitions--;
+      }
+    }
+  }
+
+  return retour;
+}
+
+string Automate::motAleatoire(int longeurmot){
+  srand(time(NULL));
+  string mot = "";
+  int nb;
+  while(mot.size()<longeurmot){
+    nb = rand()%tailleAlphabet+1;
+    mot.append(1,alphabet2[nb]);
+  }
+  return mot;
+}
+
+
 /* ----- Fonctions ----- */
 
 vector<Etat*>* Automate::fonctionDeTransition( Etat a , char lettre){

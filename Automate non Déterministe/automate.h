@@ -37,6 +37,13 @@ public:
   Automate();
   Automate(char* n_alphabet ,int nbSalles,int nbLettresAlphabet);
 
+  /*Algorithmes générations aléatoire */
+  Automate generationAleatoire1(int nbSalles , float densite, char* n_alphabet,int nbLettresAlphabet);
+  Automate generationAleatoire2(int nbSalles , float densite, char* n_alphabet,int nbLettresAlphabet);
+  Automate generationAleatoire3(int nbSalles , float densite, char* n_alphabet,int nbLettresAlphabet);
+
+  std::string motAleatoire(int longeurmot);
+
 /* Fonctions */
   std::vector<Etat*>* fonctionDeTransition(Etat a,char lettre);
   bool motReconnu(char* mot,int longeurmot);
