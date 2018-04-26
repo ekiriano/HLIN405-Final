@@ -60,6 +60,7 @@ std::string motAleatoire(int longeurmot);
   void setTransition(int etat , char lettre , int etatf);
   Etat* getEnsembleGlobal();
   Etat*** getEnsembleTransitions();
+  void afficherAutomate();
 
 /* Fonctions a finir */
 
