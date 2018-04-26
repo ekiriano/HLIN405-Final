@@ -91,44 +91,23 @@ cout << "son plus petitchemin est alors : " << automate3.pluspetitchemin() << en
 
 
 cout << "testons les algorithmes de génération aléatoires :" << endl;
-Automate testGenAleat;
-int rep=1;
-while (rep!=0) {
-  cout << "0 : quitter"<< endl;
-  cout << "1 : genAleat1"<< endl;
-  cout << "2 : genAleat2"<< endl;
-  cout << "3 : genAleat3"<< endl;
-  cin>> rep;
-  switch (rep) {
-    case 1:
-  }
-}
+
+cout << "    ---------- generationAleatoire1 ----------     " << endl;
+Automate testGenAleat1= generationAleatoire1(10,2,tab,3);
+cout << " existe t'il un chemin ? : " <<testGenAleat1.existechemin() << endl;
+cout << "son plus petitchemin est alors : " << testGenAleat1.pluspetitchemin() << endl;
+cout << "    ---------- generationAleatoire1 ----------     " << endl;
+Automate testGenAleat2= generationAleatoire2(10,2,tab,3);
+cout << " existe t'il un chemin ? : " <<testGenAleat2.existechemin() << endl;
+cout << "son plus petitchemin est alors : " << testGenAleat2.pluspetitchemin() << endl;
+cout << "    ---------- generationAleatoire1 ----------     " << endl;
+Automate testGenAleat3= generationAleatoire3(10,2,tab,3);
+cout << " existe t'il un chemin ? : " <<testGenAleat3.existechemin() << endl;
+cout << "son plus petitchemin est alors : " << testGenAleat3.pluspetitchemin() << endl;
 
 
-cout << "##############################" << endl;
- cout << a.pluspetitchemin() << endl;
 
 
- Automate bal;
- bal=bal.generationAleatoire3(10,2,tab,3);
-
- Etat* balGlob = bal.getEnsembleGlobal();
- for (int i=0;i<10;i++){
-   cout << balGlob[i].getEtat() << endl;
- }
- for(int i =0;i<10;i++){
-   for(int j=0;j<3;j++){
-     cout << balGlob[i].getEtat()<<"  " ;
-     if(bal.fonctionDeTransition(balGlob[i],tab[j])!=NULL){
-       cout << tab[j]<<"  " << bal.fonctionDeTransition(balGlob[i],tab[j])->getEtat() << endl;
-     }
-     else{
-       cout << "pas transition" << endl;
-     }
-   }
- }
- cout << bal.existechemin() << endl;
- cout << bal.pluspetitchemin() << endl;
 
   return 0;
 }
