@@ -8,7 +8,7 @@
 #include <algorithm>
 #include <vector>
 #include <string>
-
+#include <fstream>
 /*
   Automate représenté sous forme de quintuplet
   A = alphabet
@@ -46,7 +46,7 @@ public:
 
 /* Fonctions */
   std::vector<Etat*>* fonctionDeTransition(Etat a,char lettre);
-  bool motReconnu(char* mot,int longeurmot);
+  bool motReconnu(std::string mot);
   std::vector<Etat*> unionEtats(std::vector<Etat*> ensembleDepart, char lettre);
 
   void existechemininter(std::vector<Etat*> ensembleDepart);
@@ -55,13 +55,14 @@ public:
   void pluspetitcheminInter(std::vector<Etat*> depart);
   std::string pluspetitchemin();
 
+  void afficherAutomate();
+
 /* set & getters */
   std::map< char, int> getAlphabet();
   int getId(char a);
   void setTransition(int etat , char lettre , int etatf);
   Etat* getEnsembleGlobal();
   std::vector<Etat*>*** getEnsembleTransitions();
-  void resetTraverseeFalse();
 
 
 };

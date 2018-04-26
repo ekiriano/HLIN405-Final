@@ -2,76 +2,47 @@
 using namespace std ;
 
 int main(int argc, char const *argv[]) {
-/* ############# Tests Unitaires #############
 
-Representation de l'automate :
-  |    a    |   b
-0 | {1,2,3} |   {1}
-1 |   {}    |   {1,2}
-2 |   {3}   |     {3}
-3 |   {}    |   {}
+cout << "  ---------  automate 1 :  ---------  " << endl;
+cout << "   |    a    |   b   | "<<endl <<
+        " 0 | {1,2,3} |   {1} | "<<endl <<
+        " 1 |   {}    | {1,2} | "<<endl <<
+        " 2 |   {3}   |   {3} | "<<endl <<
+        " 3 |   {}    |   {}  | "<<endl;
 
-Reconnait les mots : a,aa,aba,ab ...
-*/
+char alphabet1[] = {'a','b'};
+Automate automate1(alphabet1 ,4,2);
 
- char alphabet[2] = {'a','b'};
- Automate test(alphabet ,4,2);
+automate1.setTransition(0,'a',1);automate1.setTransition(0,'a',2);automate1.setTransition(0,'a',3);
+automate1.setTransition(0,'b',1);automate1.setTransition(1,'b',1);automate1.setTransition(1,'b',2);
+automate1.setTransition(2,'a',3);automate1.setTransition(2,'b',3);
 
- test.setTransition(0,'a',1);test.setTransition(0,'a',2);test.setTransition(0,'a',3);
- test.setTransition(0,'b',1);test.setTransition(1,'b',1);test.setTransition(1,'b',2);
- test.setTransition(2,'a',3);test.setTransition(2,'b',3);
+string mot1 = "ab"; string mot2 = "abc";
+cout << " le mot ab est il reconnu : " <<automate1.motReconnu(mot1)<<endl;
+cout << " le mot abc est il reconnu : " <<automate1.motReconnu(mot2)<<endl;
+cout << " existe t'il un chemin ? : " <<automate1.existechemin() << endl;
+cout << "son plus petitchemin est alors : " << automate1.pluspetitchemin() << endl;
+string motaleat1 = automate1.motAleatoire(3);
+cout << "generons aleatoirement le mot suivant : " << motaleat1 << endl;
 
- Etat* ensembleEtats = test.getEnsembleGlobal();
+cout << "  ---------  automate 1 :  ---------  " << endl;
+Automate testAleatoire1;
+testAleatoire1 = testAleatoire1.generationAleatoire1(10,4.0,alphabet1,2);
+cout << " existe t'il un chemin ? : " <<testAleatoire1.existechemin() << endl;
+cout << "son plus petitchemin est alors : " << testAleatoire1.pluspetitchemin() << endl;
 
- //vector<Etat*> uniondestransitions0a = test.unionEtats(testensemble,'a');
+cout << "  ---------  automate 2 :  ---------  " << endl;
+Automate testAleatoire2;
+testAleatoire2 = testAleatoire2.generationAleatoire2(10,4.0,alphabet1,2);
+cout << " existe t'il un chemin ? : " <<testAleatoire2.existechemin() << endl;
+cout << "son plus petitchemin est alors : " << testAleatoire2.pluspetitchemin() << endl;
 
-/*
- cout << "affichage de l'union" << endl; // 3
- for(int i=0 ;i<uniondestransitions0a.size();i++){
-  cout << uniondestransitions0a[i]->getEtat() << endl;
-}
-*/
+cout << "  ---------  automate 3 :  ---------  " << endl;
+Automate testAleatoire3;
+testAleatoire3 = testAleatoire3.generationAleatoire3(10,4.0,alphabet1,2);
+cout << " existe t'il un chemin ? : " <<testAleatoire3.existechemin() << endl;
+cout << "son plus petitchemin est alors : " << testAleatoire3.pluspetitchemin() << endl;
 
-vector<Etat*> testensemble;
-testensemble.push_back(&ensembleEtats[0]);
-test.pluspetitcheminInter(testensemble);
 
-for(int i = 0;i< 4;i++){
-  if(ensembleEtats[i].getPere()!= NULL){
-  cout << ensembleEtats[i].getEtat() << " a pour pere : " << ensembleEtats[i].getPere()->getEtat()<<endl;
-  }
-  else{
-    cout << ensembleEtats[i].getEtat() << " n'a pas de pere "<< endl;
-  }
-}
-
-test.pluspetitchemin();
-
-cout << "########## Test des Mots Reconnus ##########" << endl;
-cout<< "---------------------------" << endl;
-//cout << " aba " <<endl;
-char mot1[3]= {'a','b','a'};
-cout <<test.motReconnu(mot1,3)<<endl;
-cout<< "---------------------------" << endl;
-//cout << " a " <<endl;
-char mot2[1]= {'b'};
-cout << test.motReconnu(mot2,1)<<endl;
-cout<< "---------------------------" << endl;
-
-vector<Etat*> initial ; initial.push_back(&ensembleEtats[0]);
-cout << test.existechemin()<< endl;
-
-/*
- for(int i= 0; i< 4 ;i++){
-   cout << ensembleEtats[i].getEtat();
- }
- */
-/*
-vector<Etat*>* transition0a = test.fonctionDeTransition(ensembleEtats[0] ,'a');
-vector<Etat*> transition0aderef = *transition0a;
-cout << "taille du nombre d'etat pour la transition 0a* :"<< transition0a->size()<< endl;
- for(int i=0 ; i<transition0aderef.size();i++){
-   cout<<transition0aderef[i]->getEtat() <<endl;
- }*/
   return 0;
 }

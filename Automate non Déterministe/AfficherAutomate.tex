@@ -1,0 +1,39 @@
+\documentclass[12pt]{article}
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+\begin{document}
+\begin{tikzpicture}[->,>=stealth',shorten >=0.5pt,auto,node distance=3cm, scale = 1,transform shape]
+\node[state,initial] (0)   {$1$};
+\node[state]  (1) [below right of = 0] {$2$};
+\node[state]  (2) [below left of = 0] {$3$};
+\node[state,accepting] (3) [below right of = 2] {$4$};
+\path (0) edge [bend right] node {$a$}(1)
+   (0) edge [bend left] node {$a$}(2)
+   (0) edge [bend left] node {$b$}(1)
+   (0) edge [bend left] node {$€$}(1)
+   (0) edge [bend left] node {$€$}(3)
+   (0) edge [bend left] node {$$}(1)
+   (0) edge [bend left] node {$$}(3)
+   (0) edge [bend left] node {$a$}(1)
+   (0) edge [bend left] node {$a$}(3)
+   (0) edge [bend left] node {$T$}(1)
+   (0) edge [bend left] node {$T$}(3)
+   (0) edge [bend left] node {$ÿ$}(1)
+   (0) edge [bend left] node {$ÿ$}(3)
+   (0) edge [bend left] node {$$}(1)
+   (0) edge [bend left] node {$$}(3)
+   (1) edge [bend left] node {$b$}(1)
+   (2) edge [bend left] node {$a$}(3)
+   (2) edge [bend left] node {$b$}(3)
+   (2) edge [bend left] node {$€$}(3)
+   (2) edge [bend left] node {$$}(3)
+   (2) edge [bend left] node {$a$}(3)
+   (2) edge [bend left] node {$T$}(3)
+   (2) edge [bend left] node {$ÿ$}(3)
+   (2) edge [bend left] node {$$}(3)
+;
+\end{tikzpicture}
+\end{document}

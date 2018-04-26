@@ -65,8 +65,8 @@ Automate Automate::generationAleatoire1(int nbSalles , float densite, char* n_al
   srand(time(NULL));
   while(nbTransitions!= 0){
     indiceLettre=rand()%nbLettresAlphabet;
-    etatAleat1=rand()%nbSalles; cout <<"etatAleat1 : " << etatAleat1 << endl;
-    etatAleat2=rand()%nbSalles; cout <<"etatAleat2 : " << etatAleat2 << endl;
+    etatAleat1=rand()%nbSalles; //cout <<"etatAleat1 : " << etatAleat1 << endl;
+    etatAleat2=rand()%nbSalles; //cout <<"etatAleat2 : " << etatAleat2 << endl;
 
     if(etatAleat2!=0 && etatAleat1!=nbSalles-1 && (etatAleat1!=etatAleat2)){
       retour.setTransition(etatAleat1,n_alphabet[indiceLettre],etatAleat2);
@@ -125,10 +125,11 @@ Automate Automate::generationAleatoire3(int nbSalles , float densite, char* n_al
 
   while(nbTransitions!= 0){
     indiceLettre=rand()%nbLettresAlphabet;
-    etatAleat1=rand()%nbSalles; cout <<"etatAleat1 : " << etatAleat1 << endl;
-    etatAleat2=rand()%nbSalles; cout <<"etatAleat2 : " << etatAleat2 << endl;
+    etatAleat1=rand()%nbSalles; //cout <<"etatAleat1 : " << etatAleat1 << endl;
+    etatAleat2=rand()%nbSalles; //cout <<"etatAleat2 : " << etatAleat2 << endl;
+
     if(nbTransitions == 1){
-      if(etatAleat2!=0 && etatAleat1!=nbSalles-1 && (etatAleat1!=etatAleat2)){
+      if(etatAleat1!=nbSalles-1){
         retour.setTransition(etatAleat1,n_alphabet[indiceLettre],nbSalles-1);
         nbTransitions--;
       }
@@ -149,7 +150,7 @@ string Automate::motAleatoire(int longeurmot){
   string mot = "";
   int nb;
   while(mot.size()<longeurmot){
-    nb = rand()%tailleAlphabet+1;
+    nb = rand()%tailleAlphabet;
     mot.append(1,alphabet2[nb]);
   }
   return mot;
@@ -185,14 +186,15 @@ vector<Etat*> Automate::unionEtats(vector<Etat*> ensembleDepart, char lettre){
   return inter;
 }
 
-bool Automate::motReconnu(char* mot,int longeurmot){ //O(longeurmot)
+bool Automate::motReconnu(string mot){ //O(longeurmot)
 
   vector<Etat*> actuel(0); actuel.push_back(etatInitial); // set a etat initial;
   vector<Etat*> pourVerif;
 
   int i =0 ;
+  int longeurmot = mot.size();
   while(i<longeurmot){
-    cout << mot[i]<<endl;
+    //cout << mot[i]<<endl;
     if(longeurmot == 1){
       actuel = unionEtats(actuel,mot[i]);
       for(int k= 0;k<actuel.size();k++){
@@ -256,7 +258,7 @@ string Automate::pluspetitchemin(){
   vector<Etat*> ensPar;
 
 
-    cout << " bloque ? " << endl;
+    //cout << " bloque ? " << endl;
   if(existechemin()){
     this->pluspetitcheminInter(initial);
     Etat* temp = etatFinal;
@@ -278,7 +280,6 @@ string Automate::pluspetitchemin(){
     }
     reverse(petitchemin.begin(),petitchemin.end());// reverse petit chemin avant de renvoyer
   }
-  cout << "pluspetitchemin : "<< petitchemin << endl;
   return petitchemin;
 
 }
@@ -339,9 +340,80 @@ bool Automate::existechemin(){
   return etatFinal->getSalle_Traverse();
 }
 
-void Automate::resetTraverseeFalse(){ //O(nbetats)
-  int tailleEnsembleGlobal = sizeof(ensembleGlobal)/sizeof(Etat*);
-  for(int i=0;i<tailleEnsembleGlobal;i++){
-    ensembleGlobal[i].setSalle_Traverse(false);
+void Automate::afficherAutomate(){
+
+  int tailleAlphabet = sizeof(alphabet2)/sizeof(char);
+  ofstream monFlux("AfficherAutomate.tex",ios::trunc);
+
+  if(monFlux){
+
+    monFlux << "\\documentclass[12pt]{article}" << endl;
+    monFlux << "\\usepackage[english]{babel}" << endl;
+    monFlux << "\\usepackage[utf8x]{inputenc}" << endl;
+    monFlux << "\\usepackage{amsmath}" << endl;
+    monFlux << "\\usepackage{tikz}" << endl;
+    monFlux << "\\usetikzlibrary{arrows,automata}" << endl;
+    monFlux << "\\begin{document}" << endl;
+    monFlux << "\\begin{tikzpicture}[->,>=stealth',shorten >=0.5pt,auto,node distance=3cm, scale = 1,transform shape]" << endl;
+
+    string T[3]={"below right","below left","below"};
+    if(sizeof(ensembleGlobal)<= 10){
+      // faut parcourir l'ensemble des etats initiaux
+      monFlux << "\\node[state,initial] ("<<etatInitial->getEtat()<<")   {$1$};" << endl;
+      // le reste des etats
+      int j = 2; int m = 0;
+      for(int i = 1; i < tailleEnsemleGlobal-1; i++){
+        if(m < 2){
+          if(i%2 != 0){
+          monFlux << "\\node[state]  ("<<ensembleGlobal[i].getEtat()<<") ["<<T[m]<<" of = "<<ensembleGlobal[i].getEtat()-1 <<"] {$"<<j<<"$};" << endl;
+          j++;
+          m++; }
+         else{ monFlux << "\\node[state]  ("<<ensembleGlobal[i].getEtat()<<") ["<<T[m]<<" of = "<<ensembleGlobal[i].getEtat()-2 <<"] {$"<<j<<"$};" << endl;
+        j++; m++;  } }
+        else {monFlux << "\\node[state]  ("<<ensembleGlobal[i].getEtat()<<") ["<<T[m]<<" of = "<<ensembleGlobal[i].getEtat()-2 <<"] {$"<<j<<"$};" << endl;
+       j++;}
+
+            // if {monFlux << "\\node[state]  ("<<ensembleGlobal[i].getEtat()<<") ["<<T[m]<<" of = "<<ensembleGlobal[i].getEtat()-2 <<"] {$"<<j<<"$};" << endl;
+            // j++; }
+      }
+
+      monFlux <<"\\node[state,accepting] ("<<etatFinal->getEtat()<<") [below right of = "<<ensembleGlobal[tailleEnsemleGlobal-2].getEtat()<<"] {$"<< tailleEnsemleGlobal<<"$};" << endl;
+
+
+      // faut parcourir l'ensemble des etats finaux.
+      int supercool = 0; int tailleAlphabet = sizeof(alphabet2)/sizeof(char);
+      // faire les transitions.
+      for(int k = 0; k < tailleEnsemleGlobal; k++){ //Parcourir l'ensemble des transitions.
+        for(int j=0 ; j < tailleAlphabet;j++){
+          if( fonctionDeTransition(ensembleGlobal[k],alphabet2[j])->size() != 0 ){
+            for(unsigned int i=0; i<(fonctionDeTransition(ensembleGlobal[k],alphabet2[j]))->size(); i++){
+
+              if(supercool == 0){
+                monFlux <<"\\path ("<<ensembleGlobal[k].getEtat()<< ") edge [bend right] node {$" <<alphabet2[j]<<"$}("<<(fonctionDeTransition(ensembleGlobal[k],alphabet2[j]))->at(i)->getEtat()<<")" << endl;
+                supercool++;
+
+            }
+          else { monFlux <<"   ("<<ensembleGlobal[k].getEtat()<< ") edge [bend left] node {$" <<alphabet2[j]<<"$}("<<(fonctionDeTransition(ensembleGlobal[k],alphabet2[j]))->at(i)->getEtat()<<")" << endl; i++;}
+        }
+          // else if(fonctionDeTransition(ensembleGlobal[k],alphabet2[j]) != NULL){
+          //   for(unsigned int i=0; i<(fonctionDeTransition(ensembleGlobal[k],alphabet2[j]))->size(); i++){
+          //   monFlux <<"   ("<<ensembleGlobal[k].getEtat()<< ") edge [bend left] node {$" <<alphabet2[j]<<"$}("<<(fonctionDeTransition(ensembleGlobal[k],alphabet2[j]))->at(i)->getEtat()<<")" << endl;
+
+        }}}
+
+
+
+      monFlux << ";" << endl;
+      monFlux << "\\end{tikzpicture}" << endl;
+      monFlux << "\\end{document}" << endl;
+      monFlux.close();
+      system("pdflatex AfficherAutomate.tex");
+    }
+  else {
+    monFlux << "le nombre de salles doit etre inferieur à 10" << endl;
+    monFlux.close();}
+
   }
+  else { cout << "ERREUR: Impossible d'ouvrir le fichier." << endl; }
+
 }
