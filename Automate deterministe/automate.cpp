@@ -141,7 +141,7 @@ string Automate::motAleatoire(int longeurmot){
   string mot = "";
   int nb;
   while(mot.size()<=longeurmot){
-    nb = rand()%tailleAlphabet+1;
+    nb = rand()%tailleAlphabet;
     mot.append(1,alphabet2[nb]);
   }
   return mot;

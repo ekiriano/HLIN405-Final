@@ -90,18 +90,23 @@ cout << " existe t'il un chemin ? : " <<automate3.existechemin() << endl;
 cout << "son plus petitchemin est alors : " << automate3.pluspetitchemin() << endl;
 
 
-cout << "testons les algorithmes de génération aléatoires :" << endl;
+cout << endl<< "testons les algorithmes de génération aléatoires :" << endl;
 
-cout << "    ---------- generationAleatoire1 ----------     " << endl;
-Automate testGenAleat1= generationAleatoire1(10,2,tab,3);
+cout << "    ---------- generationAleatoire1 ----------     " << endl << endl;
+Automate testGenAleat1;
+testGenAleat1= testGenAleat1.generationAleatoire1(10,1.8,alphabet1,2);
 cout << " existe t'il un chemin ? : " <<testGenAleat1.existechemin() << endl;
 cout << "son plus petitchemin est alors : " << testGenAleat1.pluspetitchemin() << endl;
-cout << "    ---------- generationAleatoire1 ----------     " << endl;
-Automate testGenAleat2= generationAleatoire2(10,2,tab,3);
+
+cout << "    ---------- generationAleatoire2 ----------     " << endl<< endl;
+Automate testGenAleat2;
+testGenAleat2= testGenAleat2.generationAleatoire2(10,2,alphabet1,2);
 cout << " existe t'il un chemin ? : " <<testGenAleat2.existechemin() << endl;
 cout << "son plus petitchemin est alors : " << testGenAleat2.pluspetitchemin() << endl;
-cout << "    ---------- generationAleatoire1 ----------     " << endl;
-Automate testGenAleat3= generationAleatoire3(10,2,tab,3);
+
+cout << "    ---------- generationAleatoire3 ----------     " << endl <<endl;
+Automate testGenAleat3;
+testGenAleat3= testGenAleat3.generationAleatoire3(10,1.8,alphabet1,2);
 cout << " existe t'il un chemin ? : " <<testGenAleat3.existechemin() << endl;
 cout << "son plus petitchemin est alors : " << testGenAleat3.pluspetitchemin() << endl;
 
