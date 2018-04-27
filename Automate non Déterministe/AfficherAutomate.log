@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2018.3.14)  26 APR 2018 21:30
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2018.3.14)  27 APR 2018 18:58
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -477,8 +477,7 @@ File: pgflibraryshapes.multipart.code.tex 2010/01/07 v3.0.1a (rcs-revision 1.2)
 \pgfnodepartsevenbox=\box56
 \pgfnodepartsixbox=\box57
 \pgfnodepartfivebox=\box58
-)))
-No file AfficherAutomate.aux.
+))) (./AfficherAutomate.aux)
 \openout1 = `AfficherAutomate.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 7.
@@ -493,6 +492,7 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 7.
 LaTeX Font Info:    ... okay on input line 7.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 7.
 LaTeX Font Info:    ... okay on input line 7.
+
 (/usr/local/texlive/2017/texmf-dist/tex/latex/ucs/ucsencs.def
 File: ucsencs.def 2011/01/21 Fixes to fontencodings LGR, T3
 )
@@ -559,28 +559,25 @@ G,.JBIG2,.JB2,.eps]
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
+[1
 
-! Package utf8x Error: Character128appearedalone.
-
-See the utf8x package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.16    (0) edge [bend left] node {$€$}(1)
-                                          
-? X
- 
+{/usr/local/texlive/2017/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+(./AfficherAutomate.aux) ) 
 Here is how much of TeX's memory you used:
- 13807 strings out of 492995
- 286698 string characters out of 6132704
- 340370 words of memory out of 5000000
- 17107 multiletter control sequences out of 15000+600000
+ 13839 strings out of 492995
+ 287427 string characters out of 6132704
+ 341370 words of memory out of 5000000
+ 17134 multiletter control sequences out of 15000+600000
  7050 words of font info for 26 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 55i,8n,68p,429b,780s stack positions out of 5000i,500n,10000p,200000b,80000s
-No pages of output.
+ 55i,8n,68p,429b,788s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/local/texlive/2017/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmr12.pfb>
+Output written on AfficherAutomate.pdf (1 page, 19157 bytes).
 PDF statistics:
- 3 PDF objects out of 1000 (max. 8388607)
+ 19 PDF objects out of 1000 (max. 8388607)
+ 13 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 13 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -68,7 +68,10 @@ Automate Automate::generationAleatoire1(int nbSalles , float densite, char* n_al
     etatAleat1=rand()%nbSalles; //cout <<"etatAleat1 : " << etatAleat1 << endl;
     etatAleat2=rand()%nbSalles; //cout <<"etatAleat2 : " << etatAleat2 << endl;
 
-    if(etatAleat2!=0 && etatAleat1!=nbSalles-1 && (etatAleat1!=etatAleat2)){
+    vector<Etat*> transition = *retour.fonctionDeTransition(ensembleGlobalRetour[etatAleat1],n_alphabet[indiceLettre]);
+
+    if(etatAleat2!=0 && etatAleat1!=nbSalles-1 && (etatAleat1!=etatAleat2) && !estDansTransition(transition,&ensembleGlobalRetour[etatAleat2])) {
+      cout<< "teeest" << endl;
       retour.setTransition(etatAleat1,n_alphabet[indiceLettre],etatAleat2);
       nbTransitions--;
     }
@@ -89,6 +92,7 @@ Automate Automate::generationAleatoire2(int nbSalles , float densite, char* n_al
   int etatAleat1 , etatAleat2; int indiceLettre;
   srand(time(NULL));
 
+  vector<Etat*> transition;
   while(nbTransitionsSortantes!= 0 && nbTransitionsEntrantes!=0){
     indiceLettre=rand()%nbLettresAlphabet;
     etatAleat1=rand()%nbSalles;
@@ -97,14 +101,16 @@ Automate Automate::generationAleatoire2(int nbSalles , float densite, char* n_al
     if(etatAleat1!=etatAleat2){
 
       if(etatAleat1<etatAleat2){
-        if(etatAleat2!=0 && etatAleat1!=nbSalles-1){
+         transition = *retour.fonctionDeTransition(ensembleGlobalRetour[etatAleat1],n_alphabet[indiceLettre]);
+        if(etatAleat2!=0 && etatAleat1!=nbSalles-1 && !estDansTransition(transition,&ensembleGlobalRetour[etatAleat2]) ){
           retour.setTransition(etatAleat1,n_alphabet[indiceLettre],etatAleat2);
           nbTransitionsSortantes--;
         }
       }
 
       if(etatAleat2>etatAleat1){
-        if(etatAleat2!=(nbSalles-1) && etatAleat1!=0){
+        transition = *retour.fonctionDeTransition(ensembleGlobalRetour[etatAleat2],n_alphabet[indiceLettre]);
+        if(etatAleat2!=(nbSalles-1) && etatAleat1!=0 && !estDansTransition(transition,&ensembleGlobalRetour[etatAleat1])){
           retour.setTransition(etatAleat2,n_alphabet[indiceLettre],etatAleat1);
           nbTransitionsEntrantes--;
         }
@@ -128,14 +134,16 @@ Automate Automate::generationAleatoire3(int nbSalles , float densite, char* n_al
     etatAleat1=rand()%nbSalles; //cout <<"etatAleat1 : " << etatAleat1 << endl;
     etatAleat2=rand()%nbSalles; //cout <<"etatAleat2 : " << etatAleat2 << endl;
 
+    vector<Etat*> transition = *retour.fonctionDeTransition(ensembleGlobalRetour[etatAleat1],n_alphabet[indiceLettre]);
+
     if(nbTransitions == 1){
-      if(etatAleat1!=nbSalles-1){
+      if(etatAleat1!=nbSalles-1 && !estDansTransition(transition,&ensembleGlobalRetour[etatAleat2])){
         retour.setTransition(etatAleat1,n_alphabet[indiceLettre],nbSalles-1);
         nbTransitions--;
       }
     }
     else{
-      if(etatAleat2!=0 && etatAleat1!=nbSalles-1 && (etatAleat1!=etatAleat2)){
+      if(etatAleat2!=0 && etatAleat1!=nbSalles-1 && (etatAleat1!=etatAleat2) && !estDansTransition(transition,&ensembleGlobalRetour[etatAleat2])){
         retour.setTransition(etatAleat1,n_alphabet[indiceLettre],etatAleat2);
         nbTransitions--;
       }
@@ -342,7 +350,6 @@ bool Automate::existechemin(){
 
 void Automate::afficherAutomate(){
 
-  int tailleAlphabet = sizeof(alphabet2)/sizeof(char);
   ofstream monFlux("AfficherAutomate.tex",ios::trunc);
 
   if(monFlux){
@@ -381,12 +388,12 @@ void Automate::afficherAutomate(){
 
 
       // faut parcourir l'ensemble des etats finaux.
-      int supercool = 0; int tailleAlphabet = sizeof(alphabet2)/sizeof(char);
+      int supercool = 0;
       // faire les transitions.
       for(int k = 0; k < tailleEnsemleGlobal; k++){ //Parcourir l'ensemble des transitions.
         for(int j=0 ; j < tailleAlphabet;j++){
-          if( fonctionDeTransition(ensembleGlobal[k],alphabet2[j])->size() != 0 ){
-            for(unsigned int i=0; i<(fonctionDeTransition(ensembleGlobal[k],alphabet2[j]))->size(); i++){
+          if(fonctionDeTransition(ensembleGlobal[k],alphabet2[j])->size() != 0 ){
+            for(unsigned int i=0; i< fonctionDeTransition(ensembleGlobal[k],alphabet2[j])->size(); i++){
 
               if(supercool == 0){
                 monFlux <<"\\path ("<<ensembleGlobal[k].getEtat()<< ") edge [bend right] node {$" <<alphabet2[j]<<"$}("<<(fonctionDeTransition(ensembleGlobal[k],alphabet2[j]))->at(i)->getEtat()<<")" << endl;
@@ -415,5 +422,15 @@ void Automate::afficherAutomate(){
 
   }
   else { cout << "ERREUR: Impossible d'ouvrir le fichier." << endl; }
+
+}
+
+bool Automate::estDansTransition(vector<Etat*> transition , Etat* eval){
+  for (int i = 0; i < transition.size(); i++) {
+    if(transition[i]==eval){
+      return true;
+    }
+  }
+  return false;
 
 }

@@ -54,7 +54,6 @@ public:
 
   void pluspetitcheminInter(std::vector<Etat*> depart);
   std::string pluspetitchemin();
-
   void afficherAutomate();
 
 /* set & getters */
@@ -63,6 +62,8 @@ public:
   void setTransition(int etat , char lettre , int etatf);
   Etat* getEnsembleGlobal();
   std::vector<Etat*>*** getEnsembleTransitions();
+
+  bool estDansTransition(std::vector<Etat*> transition , Etat* eval);
 
 
 };

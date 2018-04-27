@@ -16,7 +16,7 @@ Automate automate1(alphabet1 ,4,2);
 automate1.setTransition(0,'a',1);automate1.setTransition(0,'a',2);automate1.setTransition(0,'a',3);
 automate1.setTransition(0,'b',1);automate1.setTransition(1,'b',1);automate1.setTransition(1,'b',2);
 automate1.setTransition(2,'a',3);automate1.setTransition(2,'b',3);
-
+automate1.afficherAutomate();
 string mot1 = "ab"; string mot2 = "abc";
 cout << " le mot ab est il reconnu : " <<automate1.motReconnu(mot1)<<endl;
 cout << " le mot abc est il reconnu : " <<automate1.motReconnu(mot2)<<endl;
@@ -27,7 +27,7 @@ cout << "generons aleatoirement le mot suivant : " << motaleat1 << endl;
 
 cout << "  ---------  automate 1 :  ---------  " << endl;
 Automate testAleatoire1;
-testAleatoire1 = testAleatoire1.generationAleatoire1(10,4.0,alphabet1,2);
+testAleatoire1 = testAleatoire1.generationAleatoire1(10,1.0,alphabet1,2);
 cout << " existe t'il un chemin ? : " <<testAleatoire1.existechemin() << endl;
 cout << "son plus petitchemin est alors : " << testAleatoire1.pluspetitchemin() << endl;
 
